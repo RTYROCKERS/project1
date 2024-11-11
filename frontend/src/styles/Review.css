@@ -1,0 +1,118 @@
+/* Main Container */
+.container-review {
+    max-width: 100%;
+    margin: auto;
+    padding: 20px;
+    height: 100vh;
+    background-color: #f0f8f0; /* Light green background */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 128, 0, 0.2);
+    font-family: Arial, sans-serif;
+}
+
+/* Heading */
+.review-title {
+    color: #2e7d32; /* Dark green */
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* Form styling */
+.new-review {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.new-review-label {
+    color: #2e7d32;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-input {
+    padding: 10px;
+    border: 1px solid #2e7d32;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus {
+    border-color: #66bb6a; /* Lighter green on focus */
+    box-shadow: 0 0 5px rgba(102, 187, 106, 0.5);
+}
+
+.submit-btn {
+    background-color: #4caf50; /* Green button */
+    color: #ffffff;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #66bb6a;
+}
+
+/* Review cards */
+.review-card {
+    background-color: #e8f5e9; /* Very light green */
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    box-shadow: 0 4px 6px rgba(0, 128, 0, 0.15);
+    animation: fadeIn 0.5s ease;
+}
+
+.review-card + .review-card {
+    margin-top: 10px;
+}
+
+.review-divider {
+    height: 2px;
+    background-color: #66bb6a;
+    margin: 10px 0;
+    opacity: 0.7;
+}
+
+/* Link styling */
+.dirc-to-home {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.dirc-to-home a {
+    color: #2e7d32;
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.dirc-to-home a:hover {
+    color: #4caf50;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container-review {
+        padding: 15px;
+    }
+    .review-title {
+        font-size: 1.5rem;
+    }
+}
+
+/* Animation for fade-in effect */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

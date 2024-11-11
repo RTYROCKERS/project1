@@ -1,0 +1,18 @@
+.carousel-head {
+    color: aquamarine; 
+    text-shadow: 2px 2px 5px rgba(97, 218, 251, 0.7);
+    font-size:larger; 
+  }
+  .carousel-text{
+    font-family:cursive
+  }
+
+  .carousel-item img {
+    padding-top: 1rem;
+    max-width: 100%; /* Makes the image responsive */
+    height: 40rem;     /* Adjust height automatically */
+    object-fit:fill; /* Crop the image if necessary to fill the space */
+  
+  }
+
+

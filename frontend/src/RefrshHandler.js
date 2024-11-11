@@ -12,8 +12,11 @@ function RefrshHandler({ setIsAuthenticated }) {
                 location.pathname === '/login' ||
                 location.pathname === '/signup'
             ) {
-                navigate('/home', { replace: false });
-            }
+                if(localStorage.getItem("userType")==="dealer"){
+                    navigate('/home_dealer', { replace: false });}
+                else{
+                    navigate('/home', { replace: false });}
+                }
         }
     }, [location, navigate, setIsAuthenticated])
 

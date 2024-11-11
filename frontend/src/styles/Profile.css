@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;1,500&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "poppins",sans-serif;
+}
+.background{
+    background: url('../assets/Bgimageofsignpage.jpeg') no-repeat;
+    background-position: center;
+    background-size:cover ;
+    height: 100vh;
+    width: 100%;
+    filter: blur(5px);
+}
+
+.item{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    background: transparent;
+    padding: 80px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+
+}
+
+.h1 {
+    background-color: aquamarine;
+
+}
+.item .logo{
+    color: #279663;
+    font-size: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 60px;
+    font-weight: 900;
+    text-shadow: 2px 2px 2px #132613;
+
+
+}
+.text-item h2{
+    font-size: 40px;
+    line-height: 1;
+    color: #279663;
+    font-weight: 800;
+    text-shadow: 2px 2px 2px #132613;
+}
+.text-item p{
+    font-size: 16px;
+    margin: 20px 0;
+}
+
+
+
+.logout-button {
+    background: #fff;
+    width: 100%;
+    height: 45px;
+    outline: none;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background: #0a8c19;
+    font-size: 16px;
+    color: #f3f7f1;
+    box-shadow: rgba(23, 5, 5, 0.4);
+}
