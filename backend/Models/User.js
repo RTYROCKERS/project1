@@ -21,6 +21,21 @@ const UserSchema = new Schema({
         enum: ['customer', 'dealer', 'admin'],
         required: true
     },
+    dealerDetails: {
+        phoneNumber: {
+            type: String,
+        },
+        serviceArea: {
+            type: String,
+        },
+        productsSold: [
+            {
+                product: String,
+                date: Date,
+                amount: Number
+            }
+        ]
+    },
     address: {
         street: String,
         city: String,
@@ -40,24 +55,6 @@ const UserSchema = new Schema({
 
     customerDetails: {
         sellinghistory: [{ type: Schema.Types.ObjectId, ref: 'Order' }]
-    },
-    // Additional fields for dealer users
-    dealerDetails: {
-        phoneNumber: {
-            type: String,
-            // required: true,
-        },
-        serviceArea: {
-            type: String,
-            // required: true,
-        },
-        productsSold: [
-            {
-                product: String,
-                date: Date,
-                amount: Number
-            }
-        ]
     }
 }, { timestamps: true });
 

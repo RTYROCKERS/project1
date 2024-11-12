@@ -1,16 +1,36 @@
-/* Container styling */
+
 .sell-container {
+  display: flex;
+  flex-direction: row; /* Align items horizontally */
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  background: linear-gradient(135deg, #255123, #2c432e); 
+  border-radius: 12px;
+  box-shadow: 0px 6px 16px rgba(0, 255, 4, 0.1);
+  margin: auto;
+  gap: 30px; /* Space between form and image */
+}
+
+/* Form wrapper with box style */
+.sell-form-wrapper {
+  flex: 1; /* Take up half of the container */
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  background-color: #e8f5e9; /* Light green background for eco-friendly feel */
-  border-radius: 8px;
+  background-color: #ffffff;
+  border-radius: 10px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
   max-width: 400px;
-  margin: auto;
+  transition: transform 0.3s ease;
 }
 
+.sell-form-wrapper:hover {
+  transform: translateY(-5px); /* Slight lift on hover for interactivity */
+}
+
+/* Inner form styles */
 .sell-form-inner {
   display: flex;
   flex-direction: column;
@@ -20,7 +40,7 @@
 
 .sell-form-label {
   font-size: 1rem;
-  color: #2e7d32; /* Dark green text color */
+  color: #2e7d32; 
   font-weight: bold;
   margin-bottom: 5px;
 }
@@ -35,16 +55,17 @@
 }
 
 .sell-form-input:focus {
-  border-color: #66bb6a; /* Slightly darker green on focus */
+  border-color: #66bb6a;
   box-shadow: 0 0 5px rgba(102, 187, 106, 0.5);
 }
 
-button[type='submit'] {
+
+.upload-btn {
   padding: 12px;
   width: 100%;
   border: none;
   border-radius: 5px;
-  background-color: #388e3c; /* Green button */
+  background-color: #388e3c; 
   color: white;
   font-weight: bold;
   font-size: 1.1rem;
@@ -52,12 +73,12 @@ button[type='submit'] {
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-button[type='submit']:hover {
+.upload-btn:hover {
   background-color: #2e7d32;
   transform: scale(1.05);
 }
 
-/* Divider styling */
+
 .divider {
   text-align: center;
   color: #66bb6a;
@@ -65,7 +86,7 @@ button[type='submit']:hover {
   font-weight: bold;
 }
 
-/* Animation */
+
 .sell-form-input,
 button[type='submit'] {
   animation: fadeInUp 0.5s ease both;
@@ -82,18 +103,38 @@ button[type='submit'] {
   }
 }
 
-/* Responsive styling */
-@media (max-width: 480px) {
+
+.sell-image {
+  flex: 1; 
+  max-width: 50%;
+  height: 30rem;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.sell-image:hover {
+  transform: scale(1.05); 
+}
+
+
+@media (max-width: 768px) {
   .sell-container {
-      padding: 15px;
-      width: 90%;
+      flex-direction: column; 
+      max-width: 90%;
   }
 
   .sell-form-input,
   button[type='submit'] {
       font-size: 0.9rem;
   }
+
+  .sell-image {
+      margin-top: 20px;
+      max-width: 100%;
+  }
 }
+
 
 
 

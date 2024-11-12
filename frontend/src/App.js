@@ -5,7 +5,6 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
-import Navbar from '../src/components/Navbar';
 import { useState } from 'react';
 import RefrshHandler from './RefrshHandler';
 import ScrapDetails from './pages/ScrapDetails';
@@ -20,17 +19,16 @@ import Homedealer from './pages/Home_dealer';
 import {jwtDecode} from 'jwt-decode'; 
 import MyCart_dealer from './pages/MyCart_dealer';
 import Admin from './pages/Admin';
-// import AppFooter from '../src/components/Footer';
+import Pickup_orders from './pages/Pickup_orders';
 
 function App() {
   const getUserIdFromToken = () => {
-    const token = localStorage.getItem("token");  // Retrieve the JWT token from localStorage
+    const token = localStorage.getItem("token"); 
     if (token) {
-      const decoded = jwtDecode(token);  // Decode the JWT token
-    //   console.log(decoded);
-      return decoded._id;  // Assuming the user's ID is stored as 'user_id' in the payload
+      const decoded = jwtDecode(token); 
+      return decoded._id;  
     }
-    return null;  // Return null if no token exists
+    return null; 
   }
 const userId = getUserIdFromToken();
   
@@ -42,28 +40,27 @@ const userId = getUserIdFromToken();
 
   return (
     <>
-      <Navbar/>
       <RefrshHandler setIsAuthenticated={setIsAuthenticated} />
       <Routes>
-        <Route path="/" element={<Navigate to = {isAuthenticated ? "/Home" : "/login"}/>} />
+        <Route path="/" element={<Navigate to ="/Home"/>} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path='/profile' element={<Profile/>}></Route>
-        <Route path='/scrapdetails' element={<ScrapDetails/>}></Route>
+        <Route path='/profile' element={<PrivateRoute element={<Profile/>}/> }/>
+        <Route path='/scrapdetails' element={<PrivateRoute element={<ScrapDetails/>}/>}/>
         <Route path='/mycart' element={<MyCart userId={userId} />} />
-        <Route path='/mycart_dealer' element={<MyCart_dealer userId={userId} />} />
+        <Route path='/history' element={<PrivateRoute element={<MyCart_dealer userId={userId} />} />}/>
         <Route path='/review' element={<Reviews/>}></Route>
         <Route path='/electronicScraps' element={<ElectronicScrap/>}></Route>
         <Route path='/metalWaste' element={<Metal/>}></Route>
         <Route path='/plasticWaste' element={<Plastic/>}></Route>
         <Route path='/woodenWaste' element={<Wood/>}></Route>
         <Route path='/glassWaste' element={<Glass/>}></Route>
-        <Route path='/admin' element={<Admin/>}></Route>
+        <Route path='/admin' element={<PrivateRoute element={<Admin/>}/>}/>
+        <Route path='/pickup_orders' element={<Pickup_orders/>}></Route>
 
-        <Route path="/home" element={<PrivateRoute element={<Home />} />} />
+        <Route path="/home" element={<Home />} />
         <Route path='/home_dealer' element={<PrivateRoute element={<Homedealer />} />} />
       </Routes>
-      {/* <AppFooter/> */}
     </>
   );
 }

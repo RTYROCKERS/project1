@@ -108,7 +108,7 @@ function Review() {
                 <button className='submit-btn' type="submit">Send</button>
             </form>
 
-            {/* Display Last 5 Reviews */}
+            {/* Display Last 7 Reviews */}
             <div>
                 <h2 className='review-title'>Previous Reviews</h2>
                 <ul>

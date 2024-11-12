@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import '../styles/MyCart.css';
+import Navbar from '../components/Navbar';
 
 function MyCart({ userId }) {
   console.log("User ID in MyCart:", userId);
@@ -42,26 +44,35 @@ function MyCart({ userId }) {
     }, [userId]);
 
     return (
-        <div>
-            <h1>User Orders</h1>
+        <>
+        <div><Navbar/></div>
+        <div className='mycart-container'>
+            <h1 className='my-cart-title'>User Orders</h1>
             {error && <p style={{ color: "red" }}>{error}</p>}
             {orders.length === 0 ? (
-                <p>No orders found.</p>
+                <div className="no-orders-container">
+                    <p className='order-detail'>No orders found.</p>
+                    <div className="eco-icon">🌱</div>
+                </div>
             ) : (
-                <ul>
+                <ul className='ordered-detail'>
                     {orders.map((order) => (
-                        <li key={order._id || order.id}>
+                        <li key={order._id || order.id} className="ordered-card">
                         <p>Item Name: {order.name}</p>
-                        <p>Price: Rs {order.price}</p>
-                        <p>Image URL: <img src={order.url} alt={order.name} width="100" /></p>
+                        <p className='price'>Price: Rs {order.price}</p>
+                        <p>Image: <img src={order.url} alt={order.name} width="100" /></p>
                         <p>Owner ID: {order.owner?.name || "Unknown"}</p>
                         <p>Buyer ID: {order.buyer?.name || "No buyer assigned"}</p>
-                        <button onClick={()=>hatao(order._id)}>DELETE</button>
+                        <p>Preferred Date of Deal: {order.preferredDate || "No Date Assigned"}</p>
+                        <p>Preferred Date of Deal: {order.preferredTime || "No preferred Time"}</p>
+                        <button className='delete-btn' onClick={()=>hatao(order._id)}>CANCEL ORDER</button>
                     </li>
                     ))}
                 </ul>
             )}
         </div>
+
+        </>
     );
 }
 

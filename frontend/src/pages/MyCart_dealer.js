@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import '../styles/MyCart.css';
+import Navbar from '../components/Navbar_dealer';
 
 function MyCart_dealer({ userId }) {
   console.log("User ID in MyCart:", userId);
@@ -25,25 +27,34 @@ function MyCart_dealer({ userId }) {
     }, [userId]);
 
     return (
-        <div>
-            <h1>User Orders</h1>
+        <>
+        <div><Navbar/></div>
+        <div className='mycart-container'>
+            <h1 className='my-cart-title'>Orders Accepted </h1>
             {error && <p style={{ color: "red" }}>{error}</p>}
             {orders.length === 0 ? (
-                <p>No orders found.</p>
+                <div className="no-orders-container">
+                    <p className='order-detail'>No orders found.</p>
+                <div className="eco-icon">🌱</div>
+            </div>
             ) : (
-                <ul>
+                <ul className='ordered-detail'>
                     {orders.map((order) => (
-                        <li key={order._id || order.id}>
+                        <li key={order._id || order.id}  className="ordered-card">
                         <p>Item Name: {order.name}</p>
                         <p>Price: Rs {order.price}</p>
-                        <p>Image URL: <img src={order.url} alt={order.name} width="100" /></p>
+                        <p>Image: <img src={order.url} alt={order.name} width="100" /></p>
                         <p>Owner ID: {order.owner?.name || "Unknown"}</p>
                         <p>Buyer ID: {order.buyer?._id || "No buyer assigned"}</p>
+                        <p>Order's preferred Date: {order.preferredDate || "No any date assigned by customer"}</p>
+                        <p>Order's preferred Time: {order.preferredTime || "No time alloted by customer"}</p>
                     </li>
                     ))}
                 </ul>
             )}
         </div>
+
+        </>
     );
 }
 

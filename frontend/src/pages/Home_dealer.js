@@ -1,133 +1,79 @@
-import React, { useEffect, useState } from 'react';
-import { Link,useNavigate } from 'react-router-dom';
-import { handleError, handleSuccess } from '../utils';
-import { ToastContainer } from 'react-toastify';
-import {jwtDecode} from 'jwt-decode'; // Correct import
+import React from 'react';
+import Navbar from '../components/Navbar_dealer';
+import '../App.css';
+import HeroSection from '../components/HeroSection';
+import Footer from '../components/Footer';
+import '../styles/home.css';
+import Blog from '../components/Blog';
 
 function Home_dealer() {
-  const [orders, setOrders] = useState([]);
-  const [dealerId, setDealerId] = useState(null); // Store dealer's ID
   
-  // Fetch orders for the dealer (those with 'buyer' = null)
-  const fetchOrders = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/orders/dealer`, {
-        method: 'GET',
-        headers: {
-          'Authorization': localStorage.getItem('token'),  // Add auth token for authorization
-        },
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        setOrders(result);
-      } else {
-        handleError(result.message || 'Failed to fetch orders');
-      }
-    } catch (error) {
-      handleError('Error fetching orders');
-      console.error(error);
-    }
-  };
-
-  // Get the dealer's ID from the JWT token
-  const getDealerIdFromToken = () => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const decoded = jwtDecode(token);
-      return decoded._id; // Assuming the ID is stored as _id in the payload
-    }
-    return null;
-  };
-
-  useEffect(() => {
-    const dealerId = getDealerIdFromToken();
-    setDealerId(dealerId); // Set the dealer's ID
-    fetchOrders(); // Fetch orders for the dealer
-  }, []);  // Empty dependency array means this runs once when the component is mounted
-
-  // Function to accept the order
-  const acceptOrder = async (orderId) => {
-    if (!dealerId) {
-      handleError('You are not logged in as a dealer');
-      return;
-    }
-    
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/orders/accept/${orderId}`, {
-        method: 'PUT', // Assuming we update the order
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': localStorage.getItem('token'),  // Include the token for authorization
-        },
-        body: JSON.stringify({
-          buyerId: dealerId, // Set the dealer's ID as the buyer
-        }),
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        handleSuccess('Order accepted successfully');
-        // Update the local orders state to reflect the accepted order
-        setOrders(orders.map(order => 
-          order._id === orderId ? { ...order, buyer: dealerId } : order
-        ));
-      } else {
-        handleError(result.message || 'Failed to accept order');
-      }
-    } catch (error) {
-      handleError('Error accepting order');
-      console.error(error);
-    }
-  };
-  const navigate=useNavigate();
-  const handleLogout = (e) => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('loggedInUser');
-    localStorage.removeItem('userType');
-    handleSuccess('User Loggedout');
-    setTimeout(() => {
-        navigate('/login');
-    }, 1000)
-}
 
   return (
+    <>
+    <div><Navbar/></div>
+    <HeroSection/>
+            <section className='how-works'>
+                <div className="works-item">
+                    <h2 className="how_works_title">How it works
+                    </h2>
+                    <div className="inner-item">
+                        <div className="how-works-col">
+                            <h4>Schedule a pickup</h4>
+                            <img src="https://plus.unsplash.com/premium_photo-1683984171269-04c84ee23234?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fHNjaGVkdWxlJTIwYSUyMHBpY2t1cCUyMGluJTIwZ3JlZW4lMjBjb2xvcnxlbnwwfHwwfHx8MA%3D%3D" alt="pickup" />
+                        </div>
+                        <div className="how-works-col">
+                            <h4>Pickup at your address</h4>
+                            <img src="https://plus.unsplash.com/premium_photo-1715573563379-d18ba5339340?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aG9tZSUyMGluJTIwZ3JlZW58ZW58MHx8MHx8fDA%3D" alt="address" />
+                        </div>
+                        <div className="how-works-col">
+                            <h4>Receive payment</h4>
+                            <img src="https://plus.unsplash.com/premium_photo-1681760173592-74f9a85003b2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cmVjZWl2ZSUyMHBheW1lbnQlMjBpbiUyMGdyZWVufGVufDB8fDB8fHww" alt="payment" />
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section id="whyus" className="why_us">
+                <div className="whyus-item">
+                    <h2 className="header-why-us">Why us</h2>
+                    <div className="inner-item">
+                        <div className="why-us-col">
+                            <img src="	https://ikp.edgekit.net/h1rxzpffx/scrapuncle/why-us/rupee_h5cohN94jkyh.png" alt="Best Rates" />
+                            <div>
+                                <h4>Best Rates</h4>
+                                <p>We provide the best value for your scrap from our network of Recyclers.</p>
+                            </div>
+                        </div>
+                        <div className="why-us-col">
+                            <img src="	https://ikp.edgekit.net/h1rxzpffx/scrapuncle/why-us/thumbs-up_vOIp-YChzZhh.png" alt="Convenience" />
+                            <div>
+                                <h4>Convenience</h4>
+                                <p>Doorstep pickup according to user's convenient date and time.</p>
+                            </div>
+                        </div>
+                        <div className="why-us-col">
+                            <img src="https://ikp.edgekit.net/h1rxzpffx/scrapuncle/why-us/trust_TmQdK2fLBVD.png" alt="Trust" />
+                            <div>
+                                <h4>Trust</h4>
+                                <p>Trained and Verified Pickup Staff with smart weighing scale.</p>
+                            </div>
+                        </div>
+                        <div className="why-us-col">
+                            <img src="https://ikp.edgekit.net/h1rxzpffx/scrapuncle/why-us/eco_wwfqNtl3n-r.png" alt="Eco-friendly" />
+                            <div>
+                                <h4>Eco-friendly</h4>
+                                <p>We ensure responsible recycling of your scrap items.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div className='m-5'><Blog/></div>
+
+
     
-    <div>
-      <button onClick={handleLogout}>Logout</button>
-      <Link to="/mycart_dealer">MY CART</Link>
-      <h1>Orders for Sale (Dealer Page)</h1>
-
-      {orders.length === 0 ? (
-        <p>No orders available at the moment.</p>
-      ) : (
-        <div>
-          {orders.map((order, index) => (
-            <div key={order._id} className="order-card">
-              {order.url ? (
-                <img src={order.url} alt={order.name} style={{ width: '100px', height: '100px' }} />
-              ) : (
-                <p>Image not available</p>
-              )}
-              <h3>{order.name}</h3>
-              <p>Price: ${order.price}</p>
-              <p>Customer: {order.owner?.name || 'Unknown'}</p> {/* Display customer name */}
-              
-              {/* Add the "Accept" button if the order doesn't already have a buyer */}
-              {order.buyer === null ? (
-                <button onClick={() => acceptOrder(order._id)}>Accept Order</button>
-              ) : (
-                <p>Order Accepted</p>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
-
-      <ToastContainer />
-    </div>
+        <Footer/>
+    </>
   );
 }
 

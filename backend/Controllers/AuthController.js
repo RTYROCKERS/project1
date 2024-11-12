@@ -5,14 +5,13 @@ const OrderModel =require("../Models/order");
 
 const order = async (req, res) => {
     try {
-        const { imageUrl, user, name, price } = req.body;
+        const { imageUrl, user, name, price, preferredDate, preferredTime } = req.body;
 
         // Validate incoming data
-        if (!imageUrl || !user || !name || !price) {
+        if (!imageUrl || !user || !name || !price || !preferredDate || !preferredTime) {
             return res.status(400).json({ message: 'All fields are required' });
         }
 
-        // Optionally, validate user by checking if the user exists in the database
         const foundUser = await UserModel.findById(user);
         if (!foundUser) {
             return res.status(404).json({ message: 'User not found' });
@@ -20,11 +19,13 @@ const order = async (req, res) => {
 
         // Create a new order
         const newOrder = new OrderModel({
-            url: imageUrl,  // image URL
-            owner: user,    // User ID of the owner (seller)
-            buyer: null,    // Buyer can be null initially or later updated
-            name: name,     // Scrap item name
-            price: price,   // Price of the scrap item
+            url: imageUrl, 
+            owner: user, 
+            buyer: null,   
+            name: name,     
+            price: price,  
+            preferredDate: new Date(req.body.preferredDate).toISOString().split('T')[0],
+            preferredTime: preferredTime
         });
 
         // Save the order to the database
@@ -47,7 +48,7 @@ const signup = async (req, res) => {
         const user = await UserModel.findOne({ email });
         if (user) {
             return res.status(409)
-                .json({ message: 'User is already exist, you can login', success: false });
+                .json({ message: 'User already exist, you can login', success: false });
         }
         const userModel = new UserModel({ name, email, password,userType });
         userModel.password = await bcrypt.hash(password, 10);
@@ -65,41 +66,65 @@ const signup = async (req, res) => {
             })
     }
 }
-const getOrdersByCustomerId = async (req, res) => {
-    const { userId } = req.params;
-    try {
-        const orders = await OrderModel.find({ owner: userId }).populate('owner').populate('buyer');
-        res.status(200).json(orders);
-    } catch (error) {
-        console.error("Error fetching orders:", error);
-        res.status(500).json({ message: "Server error fetching orders" });
-    }
-};
 const getOrdersWithCount = async (req, res) => {
-    try {
+  try {
       const ordersWithCount = await OrderModel.aggregate([
-        {
-          $group: {
-            _id: { name: "$name", price: "$price" },  // Group by fields that identify an order uniquely
-            count: { $sum: 1 },                        // Count each occurrence
-            docs: { $push: "$$ROOT" }                  // Add the full order document (optional)
+          {
+              $group: {
+                  _id: { 
+                      name: "$name", 
+                      price: "$price", 
+                      owner: "$owner", 
+                      buyer: "$buyer",
+                      preferredDate: "$preferredDate", 
+                      preferredTime: "$preferredTime" 
+                  },
+                  count: { $sum: 1 },
+                  docs: { $push: "$$ROOT" }
+              }
+          },
+          {
+              $lookup: {
+                  from: "users", 
+                  localField: "docs.owner",
+                  foreignField: "_id",
+                  as: "ownerDetails"
+              }
+          },
+          {
+              $lookup: {
+                  from: "users",
+                  localField: "docs.buyer",
+                  foreignField: "_id",
+                  as: "buyerDetails"
+              }
+          },
+          {
+            $addFields: {
+                "docs.owner": { $arrayElemAt: ["$ownerDetails", 0] },
+                "docs.buyer": { $arrayElemAt: ["$buyerDetails", 0] }
+              }
+           },
+          {
+              $project: {
+                  _id: 0,
+                  name: "$_id.name",
+                  price: "$_id.price",
+                  owner: { $arrayElemAt: ["$ownerDetails.name", 0] },
+                  buyer: { $arrayElemAt: ["$buyerDetails.name", 0] },
+                  count: 1,
+                  docs: 1
+              }
           }
-        },
-        {
-          $project: {
-            _id: 0,
-            name: "$_id.name",
-            price: "$_id.price",
-            count: 1,
-            docs: 1                                    // Include docs if you need the details
-          }
-        }
       ]);
+
       res.status(200).json(ordersWithCount);
-    } catch (error) {
+  } catch (error) {
+      console.error("Error retrieving orders with count:", error);
       res.status(500).json({ error: 'Failed to retrieve orders with count' });
-    }
-  };
+  }
+};
+
   
 const hataorecord=async(req,res)=>{
     try {
@@ -122,18 +147,28 @@ const hataorecord=async(req,res)=>{
 const getOrdersByDealerId = async (req, res) => {
     const { userId } = req.params;
     try {
-        const orders = await OrderModel.find({ buyer: userId }).populate('buyer').populate('owner');
+        const orders = await OrderModel.find({ buyer: userId }).populate('buyer').populate('owner').populate('preferredDate').populate('preferredTime');
         res.status(200).json(orders);
     } catch (error) {
         console.error("Error fetching orders:", error);
         res.status(500).json({ message: "Server error fetching orders" });
     }
 };
+const getOrdersByCustomerId = async (req, res) => {
+  const { userId } = req.params;
+  try {
+      const orders = await OrderModel.find({ owner: userId }).populate('owner').populate('buyer').populate('preferredDate').populate('preferredTime');
+      res.status(200).json(orders);
+  } catch (error) {
+      console.error("Error fetching orders:", error);
+      res.status(500).json({ message: "Server error fetching orders" });
+  }
+};
 
 const getOrdersForDealer = async (req, res) => {
     try {
       const orders = await OrderModel.find({ buyer: null })
-        .populate('owner', 'name')  // Populate the 'owner' field with 'name' from the User model
+        .populate('owner', 'name')  
         .exec();
   
       if (orders.length === 0) {

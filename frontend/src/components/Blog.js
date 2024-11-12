@@ -1,12 +1,13 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import '../styles/Blog.css'
 
 export default function Blog() {
   return (
     <div className='blog-container'>
         <h1 className='blog-head'>Want to know more about scraps </h1>
             <div className='blog-scraps'>
-                <div className="blog-card mt-3" style={{ "width": "18rem", "maxHeight": "360px", "fontFamily": "Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif" }}>
+                <div className="blog-cards mt-3">
                     <img src="https://media.istockphoto.com/id/824699446/photo/recycling-trashcan-with-household-and-appliances-3d-rendering-isolated-on-white-background.jpg?s=1024x1024&w=is&k=20&c=rgTS3bmp_uT_MVEwWcJxIBxcDaPDT1mv5g6RLIvTfwU=" className="card-img-top" alt="..." />
                     <div className="card-body">
                         <h5 className="card-title">Electronics scrap</h5>
@@ -16,7 +17,7 @@ export default function Blog() {
                         
                     </div>
                 </div>
-                <div className="blog-card mt-3" style={{ "width": "18rem", "maxHeight": "360px", "fontFamily": "Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif" }}>
+                <div className="blog-cards mt-3" >
                     <img src="https://images.unsplash.com/photo-1620676524838-7017c424120e?q=80&w=1954&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" className="card-img-top" alt="..." />
                     <div className="card-body">
                         <h5 className="card-title">Glass waste</h5>
@@ -26,7 +27,7 @@ export default function Blog() {
                         </div>
                     </div>
                 </div>
-                <div className="blog-card mt-3" style={{ "width": "18rem", "maxHeight": "360px", "fontFamily": "Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif" }}>
+                <div className="blog-cards mt-3" >
                     <img src="https://images.unsplash.com/photo-1536842409491-b3bbde0e3b66?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" className="card-img-top" alt="..." />
                     <div className="card-body">
                         <h5 className="card-title">Metallic scraps</h5>
@@ -37,7 +38,7 @@ export default function Blog() {
                         </div>
                     </div>
                 </div>
-                <div className="blog-card mt-3" style={{ "width": "18rem", "maxHeight": "360px", "fontFamily": "Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif" }}>
+                <div className="blog-cards mt-3" >
                     <img src="https://images.unsplash.com/photo-1530587191325-3db32d826c18?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" className="card-img-top" alt="..." />
                     <div className="card-body">
                         <h5 className="card-title">plastic scraps</h5>
@@ -47,7 +48,7 @@ export default function Blog() {
                         </div>
                     </div>
                 </div>
-                <div className="blog-card mt-3" style={{ "width": "18rem", "maxHeight": "360px", "fontFamily": "Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif" }}>
+                <div className="blog-cards mt-3" >
                     <img src="https://images.unsplash.com/photo-1632667226262-3f341ec5afff?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" className="card-img-top" alt="..." />
                     <div className="card-body">
                         <h5 className="card-title">wooden scraps</h5>

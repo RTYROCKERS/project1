@@ -1,0 +1,132 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #ccf3cf;
+    /* display: flex; */
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .admin-container {
+    width: 100%;
+    background-color: rgb(205, 238, 152);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+  
+  .admin-title {
+    text-align: center;
+    color: #258803;
+    font-size: 2rem;
+    font-weight: 900;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .subtitle{
+    text-align: center;
+    color: #258803;
+    margin-bottom: 20px;
+    font-size: large !important;
+    position: relative;
+  }
+  
+  .admin-title::after {
+    content: "";
+    width: 80px;
+    height: 4px;
+    background-color: #e95916;
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+  }
+  
+  .admin-outer-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .admin-outer-list-text {
+    background-color: #ffffff;
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .admin-outer-list-text:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  }
+  
+  .text-para {
+    color: #555;
+    margin-bottom: 10px;
+  }
+  
+  a {
+    color: #26da5c;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  .toggle-button {
+    background-color: #ccf3cf;
+    color: rgb(23, 92, 3);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+  }
+  
+  .toggle-button:hover {
+    background-color: #03c048;
+    color:black;
+  }
+  
+  .admin-inner-list {
+    margin-top: 10px;
+    padding-left: 20px;
+  }
+  
+  .admin-inner-list-text {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .admin-container {
+      padding: 15px;
+    }
+  
+    .admin-title {
+      font-size: 1.8rem;
+    }
+  
+    .admin-inner-list-text,.admin-outer-list-text {
+      padding: 12px;
+    }
+  
+    .toggle-button{
+        font-size: 0.85rem;
+    }
+}

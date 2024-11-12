@@ -106,7 +106,7 @@ a.navbar-logo img{
   }
 
   .nav-menu.active {
-    background: #242222;
+    background: #77966f;
     left: 0;
     opacity: 1;
     transition: all 0.5s ease;
@@ -121,9 +121,9 @@ a.navbar-logo img{
   }
 
   .nav-links:hover {
-    background-color: #fff;
+    background-color: #97ed80;
     color: #242424;
-    border-radius: 0;
+    border-radius: 50px;
   }
 
   .navbar-logo {
@@ -164,7 +164,7 @@ a.navbar-logo img{
   }
 
   .nav-links-mobile:hover {
-    background: #fff;
+    background: #ef533e;
     color: #242424;
     transition: 250ms;
   }

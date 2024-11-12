@@ -12,14 +12,13 @@ function Signup() {
         email: '',
         password: '',
         userType: 'customer',
-        phone: '', //phone number for dealers
-        serviceArea: '' // service area for dealers
+        phone: '', 
+        serviceArea: ''
     });
 
     const navigate = useNavigate();
     const handleChange = (e) => {
         const { name, value } = e.target;
-        // console.log(name, value);
         const copySignupInfo = { ...signupInfo };
         copySignupInfo[name] = value;
         setSignupInfo(copySignupInfo);
@@ -33,18 +32,31 @@ function Signup() {
         e.preventDefault();
         const { name, email, password, userType,phone,serviceArea } = signupInfo;
         
-        //Validation for required fields 
-        if (!name || !email || !password || !userType || (userType === 'dealer' && (!phone || phone.length !== 10))) {
-            return handleError('All fields are required,and phone number must be 10 digits.')
+        if (!name || !email || !password || !userType) {
+            return handleError('All fields are required');
         }
-
-        // Prepare the request body based on user type
+        if(password.length<4){
+            return handleError('Password should not be less than 4 characters')
+        }
+        
+        // Additional validation for dealers
+        if (userType === 'dealer') {
+            if (!phone) {
+                return handleError('Phone number is required for dealers');
+            }
+            if (phone.length !== 10) {
+                return handleError('Phone number must be 10 digits');
+            }
+            if (!/^\d+$/.test(phone)) {
+                return handleError('Phone number must contain only digits');
+            }
+        }
         const signupData = {
           name,
           email,
           password,
           userType,
-          ...(userType === 'dealer' && { phone, serviceArea }) // Spread only if userType is dealer
+          ...(userType === 'dealer' && { phone, serviceArea }) 
         };
 
         try {
@@ -54,7 +66,7 @@ function Signup() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(signupData), // Use the new signupData object
+                body: JSON.stringify(signupData), //using signup data
             });
             const result = await response.json();
             const { success, message, error } = result;
@@ -122,7 +134,7 @@ function Signup() {
                     </select>
                 </div>
 
-                {/* Conditionally render additional fields if user is a dealer */}
+                {/* Conditionally rendering additional fields if user is a dealer */}
                 {signupInfo.userType === 'dealer' && (
                     <>
                         <div className='input-content'>
@@ -133,7 +145,7 @@ function Signup() {
                                 name='phone'
                                 placeholder='Enter your phone number... (10 digits)'
                                 value={signupInfo.phone}
-                                maxLength={10} // Limit input to 10 characters
+                                maxLength={10} 
                                 className='form-input'
                             />
                         </div>

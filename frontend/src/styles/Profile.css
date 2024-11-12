@@ -6,12 +6,16 @@
     font-family: "poppins",sans-serif;
 }
 .background{
-    background: url('../assets/Bgimageofsignpage.jpeg') no-repeat;
     background-position: center;
+    background: linear-gradient(90deg, rgb(28, 80, 35) 0%, rgb(111, 140, 93) 100%);
     background-size:cover ;
     height: 100vh;
     width: 100%;
     filter: blur(5px);
+}
+
+.profile-text{
+    font-size: medium;
 }
 
 .item{

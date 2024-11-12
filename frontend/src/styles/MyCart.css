@@ -1,0 +1,183 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7f6; /* Soft background for the page */
+    color: #333;
+    box-sizing: border-box;
+  }
+
+  
+  .mycart-container {
+    max-width: 100%;
+    /* margin: 40px auto; */
+    padding: 30px;
+    background-color: #e8f5e9; /* Light greenish background for eco theme */
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .my-cart-title {
+    font-size: 2.5rem;
+    color: #388e3c; /* Dark Green */
+    font-weight: 700;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
+  }
+  
+  .error-message {
+    color: red;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+  
+  .ordered-detail {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+  }
+  
+  .ordered-card {
+    background-color: #ffffff;
+    border: 1px solid #c8e6c9; 
+    border-radius: 15px;
+    padding: 20px;
+    width: 250px; 
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .ordered-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+  }
+  
+  .ordered-card img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    height: 150px; 
+    object-fit: cover;
+  }
+  
+  .ordered-card h4 {
+    font-size: 1.25rem;
+    color: #388e3c; 
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  
+  .ordered-card p {
+    color: #4caf50;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .ordered-card .price {
+    color: #2c6e49;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  
+  .delete-btn {
+    background-color: #f44336; 
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 15px;
+  }
+  
+  .delete-btn:hover {
+    background-color: #d32f2f;
+  }
+  
+  .delete-btn:focus {
+    outline: none;
+  }
+  
+ 
+  .no-orders-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+    border: 2px dashed #388e3c;
+    border-radius: 10px;
+    background-color: #e8f5e9;
+    margin-top: 30px;
+  }
+  
+  .no-orders-container p {
+    font-size: 1.5rem;
+    color: #388e3c;
+    font-weight: 600;
+    margin-bottom: 15px;
+  }
+  
+  .no-orders-container .eco-icon {
+    font-size: 50px;
+    color: #388e3c;
+    margin-bottom: 10px;
+  }
+  
+  .order-detail .card-footer {
+    text-align: center;
+  }
+
+  @media (max-width: 1024px) {
+    .ordered-card {
+      width: 45%; 
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .ordered-card {
+      width: 100%;
+    }
+  
+    .my-cart-title {
+      font-size: 2rem;
+    }
+  
+    .ordered-detail {
+      justify-content: center;
+    }
+  
+    .delete-btn {
+      font-size: 0.9rem;
+      padding: 8px 16px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .mycart-container {
+      padding: 15px;
+    }
+  
+    .ordered-card {
+      padding: 15px;
+    }
+  
+    .delete-btn {
+      font-size: 0.8rem;
+      padding: 7px 14px;
+    }
+  }
+  
+  

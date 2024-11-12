@@ -1,18 +1,16 @@
 import React from 'react'
-// import { useNavigate } from 'react-router-dom';
-// import { handleError, handleSuccess } from '../utils';
-// import { ToastContainer } from 'react-toastify';
 import '../App.css';
 import HeroSection from '../components/HeroSection';
-import Cards from '../components/Cards';
 import Footer from '../components/Footer';
 import '../styles/home.css';
 import Blog from '../components/Blog';
+import Navbar from '../components/Navbar';
 
 
 function Home() {
     return (
         <>
+            <div><Navbar/></div>
             <HeroSection/>
             <section className='how-works'>
                 <div className="works-item">
@@ -70,7 +68,6 @@ function Home() {
                 </div>
             </section>
             <div className='m-5'><Blog/></div>
-            {/* <div><Cards/></div> */}
 
 
     
