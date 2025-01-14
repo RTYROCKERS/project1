@@ -24,12 +24,15 @@ import Pickup_orders from './pages/Pickup_orders';
 
 function App() {
   const getUserIdFromToken = () => {
+    try{
     const token = localStorage.getItem("token"); 
     if (token) {
       const decoded = jwtDecode(token); 
       return decoded._id;  
     }
-    return null; 
+
+    return null; }
+    catch(e){console.log(e);}
   }
 const userId = getUserIdFromToken();
   

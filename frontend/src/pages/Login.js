@@ -89,13 +89,14 @@ function Login() {
                 });
 
                 const result = await response.json();
-                const { success, jwtToken, name } = result;
+                const { success, jwtToken, name,userType} = result;
 
                 if (success) {
                     handleSuccess('Google Login Successful');
                     localStorage.setItem('token', jwtToken);
+                    console.log(jwtToken);
                     localStorage.setItem('loggedInUser', name);
-
+                    localStorage.setItem('userType', userType);
                     setTimeout(() => {
                         navigate('/home');
                     }, 1000);

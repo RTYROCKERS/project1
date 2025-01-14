@@ -218,7 +218,8 @@ const updateBuyer=async (req, res) => {
       return res.status(500).json({ message: 'Server error' });
     }
   }
-const googleLogin=async(req,res)=>{
+
+const googleLogin = async (req, res) => {
     const { token } = req.body;
     console.log(token);
 
@@ -232,41 +233,46 @@ const googleLogin=async(req,res)=>{
         const userId = payload.sub;
         const name = payload.name;
         const email = payload.email;
-        const user=await UserModel.findOne({email});
-        try{
-        if(!user){
-            const userModel=new UserModel({name,email,password, userType:"customer"})//right now only customer can login through google
-            userModel.password=bcrypt.hash(password,10);
-            await userModel.save()
-            res.status(201)
-            .json({
-                message: "Signup successfully",
-                success: true
-            })
-            } 
-        }catch (err){
-            res.status(500).json({
-                message:"Internal Server Error",
-                success:false
-            })
+        const password=await bcrypt.hash('googleuserpassword',10);
+
+        // Check if the user already exists in the database
+        let user = await UserModel.findOne({ email });
+
+        // If user doesn't exist, create a new user
+        if (!user) {
+            const userModel = new UserModel({
+                name,
+                email,
+                password,
+                userType: "customer", // Only customer can log in through Google
+            });
+
+            // Save the new user
+            await userModel.save();
+
+            // Respond with the success message and return to prevent further code execution
+            return res.status(201).json({
+                message: "Signup successful",
+                success: true,
+            });
         }
 
-        // Here, you can check if the user exists in your database
-        // and create a new user if necessary.
-
-        // Generate your own JWT token for the user
-        const jwtToken =  jwt.sign(
+        // If the user already exists, generate a JWT token
+        const jwtToken = jwt.sign(
             { email: email, _id: userId, userType: "customer" },
             process.env.JWT_SECRET,
             { expiresIn: '24h' }
-        )
+        );
 
-        res.json({ success: true, jwtToken, name });
+        // Respond with the generated JWT token
+        return res.json({ success: true, jwtToken, name ,userType: "customer"});
+
     } catch (error) {
         console.error('Error verifying Google token:', error);
-        res.status(400).json({ success: false, message: 'Invalid Google token' });
+        return res.status(400).json({ success: false, message: 'Invalid Google token' });
     }
-}
+};
+
 const login = async (req, res) => {
     try {
         const { email, password } = req.body;
