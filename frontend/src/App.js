@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import './App.css';
 import Login from './pages/Login';
+import Privacy from './pages/Privacy';
 import Signup from './pages/Signup';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
@@ -50,6 +51,7 @@ const userId = getUserIdFromToken();
         <Route path='/mycart' element={<MyCart userId={userId} />} />
         <Route path='/history' element={<PrivateRoute element={<MyCart_dealer userId={userId} />} />}/>
         <Route path='/review' element={<Reviews/>}></Route>
+        <Route path='/privacy' element={<Privacy/>}></Route>
         <Route path='/electronicScraps' element={<ElectronicScrap/>}></Route>
         <Route path='/metalWaste' element={<Metal/>}></Route>
         <Route path='/plasticWaste' element={<Plastic/>}></Route>

@@ -2,6 +2,10 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const UserModel = require("../Models/User");
 const OrderModel =require("../Models/order");
+const { OAuth2Client } = require('google-auth-library');
+require('dotenv').config();
+
+const client = new OAuth2Client(process.env.CLIENT_ID);
 
 const order = async (req, res) => {
     try {
@@ -214,7 +218,55 @@ const updateBuyer=async (req, res) => {
       return res.status(500).json({ message: 'Server error' });
     }
   }
+const googleLogin=async(req,res)=>{
+    const { token } = req.body;
+    console.log(token);
 
+    try {
+        const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: process.env.client_id,
+        });
+
+        const payload = ticket.getPayload();
+        const userId = payload.sub;
+        const name = payload.name;
+        const email = payload.email;
+        const user=await UserModel.findOne({email});
+        try{
+        if(!user){
+            const userModel=new UserModel({name,email,password, userType:"customer"})//right now only customer can login through google
+            userModel.password=bcrypt.hash(password,10);
+            await userModel.save()
+            res.status(201)
+            .json({
+                message: "Signup successfully",
+                success: true
+            })
+            } 
+        }catch (err){
+            res.status(500).json({
+                message:"Internal Server Error",
+                success:false
+            })
+        }
+
+        // Here, you can check if the user exists in your database
+        // and create a new user if necessary.
+
+        // Generate your own JWT token for the user
+        const jwtToken =  jwt.sign(
+            { email: email, _id: userId, userType: "customer" },
+            process.env.JWT_SECRET,
+            { expiresIn: '24h' }
+        )
+
+        res.json({ success: true, jwtToken, name });
+    } catch (error) {
+        console.error('Error verifying Google token:', error);
+        res.status(400).json({ success: false, message: 'Invalid Google token' });
+    }
+}
 const login = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -262,5 +314,6 @@ module.exports = {
     getOrdersByDealerId,
     getOrdersByCustomerId,
     hataorecord,
-    getOrdersWithCount
+    getOrdersWithCount,
+    googleLogin
 }

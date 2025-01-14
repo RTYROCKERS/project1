@@ -5,17 +5,19 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import 'react-toastify/ReactToastify.css';
-//import { GoogleOAuthProvider } from '@react-oauth/google';
+import { GoogleOAuthProvider } from '@react-oauth/google';  // Import GoogleOAuthProvider
+
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-const clientId = 'REACT_APP_GOOGLE_CLIENT_ID';
+const clientId = "873681028967-vd063dh6atqsldkfdkkaqbsajdm01em3.apps.googleusercontent.com";
 root.render(
   <React.StrictMode>
-    {/* <GoogleOAuthProvider clientId={clientId}> */}
+    <GoogleOAuthProvider clientId={clientId}> {/* Wrap your app with GoogleOAuthProvider */}
     <BrowserRouter>
       <App />
     </BrowserRouter>
-    {/* </GoogleOAuthProvider> */}
+    </GoogleOAuthProvider>
   </React.StrictMode>
 );
 reportWebVitals();
