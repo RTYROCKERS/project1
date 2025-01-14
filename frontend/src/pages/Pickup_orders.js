@@ -23,6 +23,7 @@ function Pickup_orders() {
 
       if (response.ok) {
         setOrders(result);
+        console.log(result);
       } else {
         handleError(result.message || 'Failed to fetch orders');
       }
@@ -110,9 +111,11 @@ function Pickup_orders() {
           ) : (
             <p>Image not available</p>
           )}
+          //console.log(order)
           <h3>{order.name}</h3>
           <p className="order-price">Price: ${order.price}</p>
           <p>Customer: {order.owner?.name || 'Unknown'}</p>
+          <p>Category: {order.category||'Unknown'}</p>
           <p>Preferred Date of Deal: {order.preferredDate || 'No Date Assigned'}</p>
           <p>Preferred Time : {order.preferredTime || 'No preferred Time'}</p>
           

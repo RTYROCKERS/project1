@@ -5,10 +5,10 @@ const OrderModel =require("../Models/order");
 
 const order = async (req, res) => {
     try {
-        const { imageUrl, user, name, price, preferredDate, preferredTime } = req.body;
+        const { imageUrl, user, name, price,category,preferredDate, preferredTime } = req.body;
 
         // Validate incoming data
-        if (!imageUrl || !user || !name || !price || !preferredDate || !preferredTime) {
+        if (!imageUrl || !user || !name || !price || !category || !preferredDate || !preferredTime) {
             return res.status(400).json({ message: 'All fields are required' });
         }
 
@@ -23,7 +23,8 @@ const order = async (req, res) => {
             owner: user, 
             buyer: null,   
             name: name,     
-            price: price,  
+            price: price, 
+            category:category, 
             preferredDate: new Date(req.body.preferredDate).toISOString().split('T')[0],
             preferredTime: preferredTime
         });
@@ -73,7 +74,8 @@ const getOrdersWithCount = async (req, res) => {
               $group: {
                   _id: { 
                       name: "$name", 
-                      price: "$price", 
+                      price: "$price",
+                      category: "$category", 
                       owner: "$owner", 
                       buyer: "$buyer",
                       preferredDate: "$preferredDate", 
@@ -110,6 +112,7 @@ const getOrdersWithCount = async (req, res) => {
                   _id: 0,
                   name: "$_id.name",
                   price: "$_id.price",
+                  category: "$_id.category",
                   owner: { $arrayElemAt: ["$ownerDetails.name", 0] },
                   buyer: { $arrayElemAt: ["$buyerDetails.name", 0] },
                   count: 1,

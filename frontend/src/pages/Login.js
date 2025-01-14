@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify';
-import { FaGoogle, FaFacebookF } from 'react-icons/fa';
+//import { FaGoogle, FaFacebookF } from 'react-icons/fa';
 import { handleError, handleSuccess } from '../utils';
 // import { GoogleLogin } from '@react-oauth/google';
 import "../styles/Login.css"
@@ -119,12 +119,12 @@ function Login() {
         <div className="login-page">
       <div className="form-container">
         <h2 className="form-title">Welcome Back</h2>
-        <button className="social-button google" onClick={() => handleSocialLogin('Google')}>
+        {/* <button className="social-button google" onClick={() => handleSocialLogin('Google')}>
           <FaGoogle className="social-icon" /> Login with Google
         </button>
         <button className="social-button facebook" onClick={() => handleSocialLogin('Facebook')}>
           <FaFacebookF className="social-icon" /> Login with Facebook
-        </button>
+        </button> */}
         <div className="divider">OR</div>
         <form onSubmit={handleLogin} className="login-form">
             <div>

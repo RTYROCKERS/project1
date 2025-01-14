@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { FaGoogle, FaFacebookF } from 'react-icons/fa';
+//import { FaGoogle, FaFacebookF } from 'react-icons/fa';
 import { ToastContainer } from 'react-toastify';
 import { handleError, handleSuccess } from '../utils';
 import "../styles/Signup.css"
@@ -169,12 +169,12 @@ function Signup() {
                 </span>
               </form>
               <div className="divider">OR</div>
-                <button className="social-button google" onClick={() => handleSocialLogin('Google')}>
+                {/* <button className="social-button google" onClick={() => handleSocialLogin('Google')}>
                   <FaGoogle className="social-icon" /> Sign up with Google
                 </button>
                 <button className="social-button facebook" onClick={() => handleSocialLogin('Facebook')}>
                   <FaFacebookF className="social-icon" /> Sign up with Facebook
-                </button>
+                </button> */}
               <ToastContainer/>
             </div>
         </div>

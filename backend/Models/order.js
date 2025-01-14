@@ -7,6 +7,7 @@ const orderSchema = new Schema({
   owner: { type: Schema.Types.ObjectId, ref: 'users', required: true }, 
   buyer: { type: Schema.Types.ObjectId, ref: 'users' }, 
   name: { type: String, required: true }, 
+  category:{ type: String, required: true,enum: ['plastic', 'metallic', 'glass','paper','electronic','others'] },
   price: { type: Number, required: true }, 
   preferredDate: {type: Date},
   preferredTime: {type: String},

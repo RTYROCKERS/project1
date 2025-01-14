@@ -22,11 +22,13 @@ function ScrapDetails() {
   const [loggedInUser, setLoggedInUser] = useState("");
   const [userType, setUserType] = useState("");
   const [products, setProducts] = useState("");
+  
   const [orderDetails, setOrderDetails] = useState({
     imageUrl: "",
     user: userId,
     name: "",
     price: "",
+    category:"",
     preferredDate: "",
     preferredTime: "",
   });
@@ -41,11 +43,25 @@ function ScrapDetails() {
     copyOrderDetails[name] = value;
     setOrderDetails(copyOrderDetails);
   };
+  const handleChange_file=(e)=>{
+    const file=e.target.files[0];
+    if(file){
+      const reader=new FileReader();
+      reader.onloadend = () => {
+        // Update the state with the image preview URL
+        setOrderDetails({
+          ...orderDetails,
+          imageUrl: reader.result, // This will contain the base64 image data URL
+        });}
+        reader.readAsDataURL(file);
+    }
 
+  }
+ 
   const upload = async (event) => {
     event.preventDefault();
 
-    const { imageUrl, user, name, price, preferredDate, preferredTime } =
+    const { imageUrl, user, name, price,category, preferredDate, preferredTime } =
       orderDetails;
     orderDetails.user = userId;
     if (
@@ -53,9 +69,11 @@ function ScrapDetails() {
       !user ||
       !imageUrl ||
       !price ||
+      !category||
       !preferredDate ||
       !preferredTime
     ) {
+      console.log(category);
       return handleError("all fields required....");
     }
     try {
@@ -79,6 +97,7 @@ function ScrapDetails() {
           user: userId,
           name: "",
           price: "",
+          category:"",
           preferredDate: "",
           preferredTime: "",
         });
@@ -126,17 +145,41 @@ function ScrapDetails() {
               />
             </div>
             <div className="sell-form-inner">
+            <label htmlFor="price" className="sell-form-label">
+              Category:
+            </label>
+            <select 
+              name="category" 
+              // Bind the value to the state category
+              onChange={handleChange}
+            >
+              <option value="plastic">PLASTIC</option>
+              <option value="metallic">METALLICS</option>
+              <option value="electronic">E-WASTE</option>
+              <option value="paper">PAPER</option>
+              <option value="glass">GLASS</option>
+              <option value="others">OTHERS</option>
+            </select>
+            </div>
+            <div className="sell-form-inner">
               <label htmlFor="url" className="sell-form-label">
                 Enter the url of scrap:
               </label>
               <input
-                onChange={handleChange}
-                type="imageUrl"
+                onChange={handleChange_file}
+                type="file"
+                accept="image/*"
                 name="imageUrl"
                 placeholder="paste your image url..."
-                value={orderDetails.imageUrl}
+                //value={orderDetails.imageUrl}
                 className="sell-form-input"
               />
+              {orderDetails.imageUrl && (
+                <div>
+                  <h3>Image Preview:</h3>
+                  <img src={orderDetails.image} alt="Image Preview" width="200" />
+                </div>
+              )}
             </div>
             <div>
               <label htmlFor="preferredDate">Preferred Date</label>
