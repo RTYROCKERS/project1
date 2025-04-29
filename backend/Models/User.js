@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 // Define the User Schema
 const UserSchema = new Schema({
+
     name: {
         type: String,
         required: true,
@@ -51,10 +52,15 @@ const UserSchema = new Schema({
                 amount: Number
             }
         ]
-    },
-
-    customerDetails: {
+        ,
         sellinghistory: [{ type: Schema.Types.ObjectId, ref: 'Order' }]
+    },
+    google: {
+        type: String
+    },
+    profileCompleted: {
+        type: Boolean,
+        default: false
     }
 }, { timestamps: true });
 

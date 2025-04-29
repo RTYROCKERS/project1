@@ -8,6 +8,7 @@ require('dotenv').config();
 const client = new OAuth2Client(process.env.CLIENT_ID);
 
 const order = async (req, res) => {
+    const io=req.app.get("io");
     try {
         const { imageUrl, user, name, price,category,preferredDate, preferredTime } = req.body;
 
@@ -37,6 +38,7 @@ const order = async (req, res) => {
         const savedOrder = await newOrder.save();
 
         // Return the saved order data in the response
+        io.emit("newOrder", savedOrder);
         res.status(201).json({
             message: 'Order created successfully',
             order: savedOrder,
@@ -49,15 +51,32 @@ const order = async (req, res) => {
 
 const signup = async (req, res) => {
     try {
-        const { name, email, password, userType } = req.body;
-        const user = await UserModel.findOne({ email });
+        const { name, email, password, userType, phone, serviceArea } = req.body;
+        if (!name || !email || !password || !userType) {
+            return res.status(400).json({ success: false, message: 'Missing required fields' });
+        }
+        let user = await UserModel.findOne({ email });
         if (user) {
             return res.status(409)
                 .json({ message: 'User already exist, you can login', success: false });
         }
-        const userModel = new UserModel({ name, email, password,userType });
-        userModel.password = await bcrypt.hash(password, 10);
-        await userModel.save();
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        user = new UserModel({
+            name,
+            email,
+            password: hashedPassword,
+            userType,
+            ...(userType === 'dealer' && {
+                dealerDetails: {
+                    phoneNumber: phone,
+                    serviceArea: serviceArea
+                }
+            }),
+            profileCompleted: true
+        });
+
+        await user.save();
         res.status(201)
             .json({
                 message: "Signup successfully",
@@ -191,10 +210,11 @@ const getOrdersForDealer = async (req, res) => {
 const updateBuyer=async (req, res) => {
     const { orderId } = req.params;
     const { buyerId } = req.body;
-  
+    const io= req.app.get("io");
     try {
       // Validate that the buyerId is correct (must be a dealer)
       const dealer = await UserModel.findById(buyerId);
+      
       if (!dealer || dealer.userType !== 'dealer') {
         return res.status(400).json({ message: 'Invalid dealer ID' });
       }
@@ -211,7 +231,11 @@ const updateBuyer=async (req, res) => {
   
       order.buyer = buyerId;  // Set the buyer to the dealer's ID
       await order.save();
-  
+      io.emit("orderAccepted", {
+        orderId: orderId,
+        buyerId: buyerId,
+        buyerName: dealer.name,
+      });
       return res.status(200).json({ message: 'Order accepted successfully', order });
     } catch (error) {
       console.error(error);
@@ -221,7 +245,7 @@ const updateBuyer=async (req, res) => {
 
 const googleLogin = async (req, res) => {
     const { token } = req.body;
-    console.log(token);
+   // console.log(token);
 
     try {
         const ticket = await client.verifyIdToken({
@@ -240,32 +264,31 @@ const googleLogin = async (req, res) => {
 
         // If user doesn't exist, create a new user
         if (!user) {
-            const userModel = new UserModel({
+            user = new UserModel({
                 name,
                 email,
                 password,
                 userType: "customer", // Only customer can log in through Google
+                google: userId,
+                profileCompleted: false ,
             });
 
             // Save the new user
-            await userModel.save();
+            await user.save();
 
             // Respond with the success message and return to prevent further code execution
-            return res.status(201).json({
-                message: "Signup successful",
-                success: true,
-            });
+            
         }
 
         // If the user already exists, generate a JWT token
         const jwtToken = jwt.sign(
-            { email: email, _id: userId, userType: "customer" },
+            { email: email, _id: user._id, userType: "customer" },
             process.env.JWT_SECRET,
             { expiresIn: '24h' }
         );
 
         // Respond with the generated JWT token
-        return res.json({ success: true, jwtToken, name ,userType: "customer"});
+        return res.json({ success: true, jwtToken, name ,userType: "customer",profileCompleted: user.profileCompleted});
 
     } catch (error) {
         console.error('Error verifying Google token:', error);
@@ -309,7 +332,41 @@ const login = async (req, res) => {
                 success: false
             })
     }
-}
+};
+const updateRecord= async (req, res) => {
+    try {
+        const { name, userType, phone, serviceArea } = req.body;
+        const userId=req.user._id;
+
+        if (!name || !userType) {
+            return res.status(400).json({ success: false, message: 'Name and userType are required' });
+        }
+
+        const updateData = {
+            name,
+            userType,
+            profileCompleted: true
+        };
+
+        if (userType === 'dealer') {
+            updateData.dealerDetails = {
+                phoneNumber: phone || '',
+                serviceArea: serviceArea || ''
+            };
+        }
+
+        const updatedUser = await UserModel.findByIdAndUpdate(userId, updateData, { new: true });
+
+        if (!updatedUser) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        res.status(200).json({ success: true, message: 'Profile updated successfully', user: updatedUser });
+    } catch (err) {
+        console.error('Update Profile Error:', err);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+};
 
 module.exports = {
     signup,
@@ -321,5 +378,6 @@ module.exports = {
     getOrdersByCustomerId,
     hataorecord,
     getOrdersWithCount,
-    googleLogin
+    googleLogin,
+    updateRecord
 }

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/MyCart.css';
 import Navbar from '../components/Navbar_dealer';
-
+import socket from './socket';
 function MyCart_dealer({ userId }) {
-  console.log("User ID in MyCart:", userId);
+//   console.log("User ID in MyCart:", userId);
     const [orders, setOrders] = useState([]);
     const [error, setError] = useState(null);
 
@@ -21,11 +21,24 @@ function MyCart_dealer({ userId }) {
             console.error("Error:", error);
         }
     };
-
+    const handleOrderAccepted = ({ orderId, buyerId }) => {
+        if (buyerId === userId) {
+          // You accepted this order, so refresh the orders
+          fetchOrders();
+        }
+      };
     useEffect(() => {
+        if (!userId) return;
         fetchOrders();
     }, [userId]);
-
+    useEffect(() => {
+        socket.on("orderAccepted", handleOrderAccepted);
+        
+        return () => {
+          socket.off("orderAccepted", handleOrderAccepted);
+        };
+    }, []);
+     
     return (
         <>
         <div><Navbar/></div>

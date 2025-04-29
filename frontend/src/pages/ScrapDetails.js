@@ -28,7 +28,7 @@ function ScrapDetails() {
     user: userId,
     name: "",
     price: "",
-    category:"",
+    category:"plastic",
     preferredDate: "",
     preferredTime: "",
   });

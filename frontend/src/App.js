@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Privacy from './pages/Privacy';
 import Signup from './pages/Signup';
 import Home from './pages/Home';
+import UpdateProfile from './pages/Complete_Profile';
 import Profile from './pages/Profile';
 import { useState } from 'react';
 import RefrshHandler from './RefrshHandler';
@@ -62,7 +63,7 @@ const userId = getUserIdFromToken();
         <Route path='/glassWaste' element={<Glass/>}></Route>
         <Route path='/admin' element={<PrivateRoute element={<Admin/>}/>}/>
         <Route path='/pickup_orders' element={<Pickup_orders/>}></Route>
-
+        <Route path='/complete_profile' element={<UpdateProfile/>}></Route>
         <Route path="/home" element={<Home />} />
         <Route path='/home_dealer' element={<PrivateRoute element={<Homedealer />} />} />
       </Routes>

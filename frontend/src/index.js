@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import 'react-toastify/ReactToastify.css';
 import { GoogleOAuthProvider } from '@react-oauth/google';  // Import GoogleOAuthProvider
 
-
+//import socket from './pages/socket';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const clientId = "873681028967-vd063dh6atqsldkfdkkaqbsajdm01em3.apps.googleusercontent.com";

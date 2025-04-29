@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/MyCart.css';
 import Navbar from '../components/Navbar';
-
+import socket from './socket';
 function MyCart({ userId }) {
   console.log("User ID in MyCart:", userId);
     const [orders, setOrders] = useState([]);
@@ -22,7 +22,9 @@ function MyCart({ userId }) {
         }
     };
     const hatao = async (orderId) => {
-      try {
+        const confirmDelete = window.confirm("Are you sure you want to cancel this order?");
+        if (!confirmDelete) return;
+        try {
           const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/customer/${orderId}/delete`, {
               method: 'DELETE',
           });
@@ -40,9 +42,17 @@ function MyCart({ userId }) {
   };
 
     useEffect(() => {
+        if(!userId)return;
         fetchOrders();
     }, [userId]);
-
+    useEffect(() => {
+        const handleOrderAccepted = ({ orderId, buyerId, buyerName }) => {
+            fetchOrders();
+        };
+    
+        socket.on("orderAccepted", handleOrderAccepted);
+        return () => socket.off("orderAccepted", handleOrderAccepted);
+    }, []);
     return (
         <>
         <div><Navbar/></div>
@@ -64,7 +74,7 @@ function MyCart({ userId }) {
                         <p>Owner ID: {order.owner?.name || "Unknown"}</p>
                         <p>Buyer ID: {order.buyer?.name || "No buyer assigned"}</p>
                         <p>Preferred Date of Deal: {order.preferredDate || "No Date Assigned"}</p>
-                        <p>Preferred Date of Deal: {order.preferredTime || "No preferred Time"}</p>
+                        <p>Preferred Time of Deal: {order.preferredTime || "No preferred Time"}</p>
                         <button className='delete-btn' onClick={()=>hatao(order._id)}>CANCEL ORDER</button>
                     </li>
                     ))}

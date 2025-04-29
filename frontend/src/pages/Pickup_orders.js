@@ -5,7 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import {jwtDecode} from 'jwt-decode'; 
 import Navbar from '../components/Navbar_dealer';
 import '../styles/Pickup_orders.css';
-
+import socket from './socket';
 function Pickup_orders() {
   const [orders, setOrders] = useState([]);
   const [dealerId, setDealerId] = useState(null); 
@@ -48,8 +48,33 @@ function Pickup_orders() {
     setDealerId(dealerId); 
     fetchOrders();
   }, []);  
-
-
+  
+  useEffect(() => {
+    if (!dealerId) return;
+  
+    const handleNewOrder = (order) => {
+      fetchOrders();
+    };
+  
+    const handleOrderAccepted = ({ orderId, buyerId }) => {
+      if (buyerId === dealerId) {
+        fetchOrders();
+      } else {
+        setOrders((prevOrders) =>
+          prevOrders.filter(order => order._id !== orderId)
+        );
+      }
+    };
+  
+    socket.on("newOrder", handleNewOrder);
+    socket.on("orderAccepted", handleOrderAccepted);
+  
+    return () => {
+      socket.off("newOrder", handleNewOrder);
+      socket.off("orderAccepted", handleOrderAccepted);
+    };
+  }, [dealerId]);
+  
   const acceptOrder = async (orderId) => {
     if (!dealerId) {
       handleError('You are not logged in as a dealer');

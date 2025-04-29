@@ -1,4 +1,4 @@
-const { signup, login, googleLogin, order, getOrdersForDealer,updateBuyer,getOrdersByCustomerId,getOrdersByDealerId,hataorecord,getOrdersWithCount } = require('../Controllers/AuthController');
+const { signup, login, googleLogin, order, getOrdersForDealer,updateBuyer,getOrdersByCustomerId,getOrdersByDealerId,hataorecord,getOrdersWithCount,updateRecord } = require('../Controllers/AuthController');
 const { signupValidation, loginValidation } = require('../Middlewares/AuthValidation');
 const { ensureAuthenticated } = require('../Middlewares/Auth'); 
 //const { getMaxListeners } = require('../Models/order');
@@ -15,7 +15,7 @@ router.get('/dealer/:userId/orders', getOrdersByDealerId);
 router.delete('/customer/:orderId/delete',hataorecord);
 router.get('/admin', getOrdersWithCount);
 router.post('/google-login',googleLogin);
-
+router.put('/update-profile',ensureAuthenticated,updateRecord);
 
 router.get('/test', ensureAuthenticated, (req, res) => {
     res.json({

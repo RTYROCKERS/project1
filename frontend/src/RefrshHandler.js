@@ -10,7 +10,7 @@ function RefrshHandler({ setIsAuthenticated }) {
             setIsAuthenticated(true);
             if (location.pathname === '/' ||
                 location.pathname === '/login' ||
-                location.pathname === '/signup'
+                location.pathname === '/signup' 
             ) {
                 if(localStorage.getItem("userType")==="dealer"){
                     navigate('/home_dealer', { replace: false });}

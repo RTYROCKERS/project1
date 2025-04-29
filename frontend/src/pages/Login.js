@@ -89,17 +89,24 @@ function Login() {
                 });
 
                 const result = await response.json();
-                const { success, jwtToken, name,userType} = result;
+                const { success, jwtToken, name,userType,profileCompleted} = result;
 
                 if (success) {
                     handleSuccess('Google Login Successful');
                     localStorage.setItem('token', jwtToken);
-                    console.log(jwtToken);
+                    // console.log(jwtToken);
                     localStorage.setItem('loggedInUser', name);
-                    localStorage.setItem('userType', userType);
-                    setTimeout(() => {
-                        navigate('/home');
-                    }, 1000);
+                    if(!profileCompleted){
+                        setTimeout(() => {
+                            navigate('/complete_profile');
+                        }, 100);
+                    }
+                    else{
+                        localStorage.setItem('userType', userType);
+                        setTimeout(() => {
+                            navigate('/home');
+                        }, 1000);
+                    }
                 } else {
                     handleError('Failed to login with Google');
                 }
